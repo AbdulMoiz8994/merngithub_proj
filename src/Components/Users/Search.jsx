@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class Search extends Component {
 
     state = {
         text: ''
     }
+
+    static propTypes = {
+        searchUsers: PropTypes.func.isRequired,
+    }
+
     onChangeFunc = (e) => {
         // this.setState({ text: e.target.value }) we can also write like this but this is only use for one input field which is name="text" 
         // In from we have mutiple field so we try to below method  
 
-        //this method is used to dynamically change state whenever text input change
+        //this method is used to ^ dynamically change state  
         this.setState({ [e.target.name]: e.target.value })
     }
     onSubmitFunc = (e) => {
