@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+//import Components from single index js file
+import { NavBar, Users, Search } from "./Components/index";
+import axios from "axios";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export class App extends Component {
+  state = {
+    users: [],
+    loading: false,
+  };
+  async componentDidMount() {
+    this.setState({ loading: true });
+    const { data } = await axios.get(
+      `https://api.github.com/users?client_id=${process.env.React_App_Client_ID}&client_secret=${process.env.React_App_Client_Secret}`
+    );
+    this.setState({ users: data });
+    this.setState({ loading: false });
+  }
+
+  // we are getting data via props up
+  searchUsersFunc = async (text) => {
+    this.setState({ loading: true });
+    const {
+      data: { items },
+    } = await axios.get(
+      `https://api.github.com/search/users?q=${text}&?client_id=${process.env.React_App_Client_ID}&client_secret=${process.env.React_App_Client_Secret}`
+    );
+    this.setState({ users: items });
+    this.setState({ loading: false });
+    console.log(items);
+  };
+
+  render() {
+    return (
+      <div>
+        <NavBar title={"Github Users"} />
+        <div className='container'>
+          <Search searchUsers={this.searchUsersFunc} />
+          <Users users={this.state.users} loading={this.state.loading} />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
