@@ -9,6 +9,7 @@ class Search extends Component {
 
     static propTypes = {
         searchUsers: PropTypes.func.isRequired,
+        clearUsers: PropTypes.func.isRequired,
         ShowClearBtn: PropTypes.bool.isRequired,
     }
 
@@ -23,22 +24,28 @@ class Search extends Component {
         e.preventDefault()
         // console.log(this.state.text)
         //we are passing data via props
-        this.props.searchUsers(this.state.text);
-        this.setState({ text: '' })
+        if (this.state.text === '') {
+            this.props.setAlert('Plase enter a valid username', 'light')
+        } else {
+            this.props.searchUsers(this.state.text);
+            this.setState({ text: '' })
+        }
+
     }
     // clearFunction = () => {
     //     this.setState({})
     // }
 
     render() {
+        const { ShowClearBtn, clearUsers } = this.props
         return (
             <div>
                 <form className="form" onSubmit={this.onSubmitFunc}>
                     <input type="text" name="text" value={this.state.text} placeholder="Search Github User" onChange={this.onChangeFunc} />
                     <input type="submit" value="Search" className="btn btn-dark btn-block" />
                 </form>
-                {this.props.ShowClearBtn && (
-                    <button className="btn  btn-block" onClick={this.props.clearUsers} >Clear</button>
+                {ShowClearBtn && (
+                    <button className="btn btn-light  btn-block" onClick={clearUsers} >Clear</button>
                 )}
             </div>
         )
