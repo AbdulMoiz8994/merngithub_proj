@@ -58,7 +58,7 @@ export class App extends Component {
   UserFunc = async (userName) => {
     this.setState({ loading: true });
     const res = await axios.get(
-      `https://api.github.com/users/${userName}&?client_id=${process.env.React_App_Client_ID}&client_secret=${process.env.React_App_Client_Secret}`
+      `https://api.github.com/users/${userName}?client_id=${process.env.React_App_Client_ID}&client_secret=${process.env.React_App_Client_Secret}`
     );
     this.setState({ user: res.data });
     this.setState({ loading: false });
