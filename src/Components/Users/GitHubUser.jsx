@@ -8,7 +8,7 @@ export class GitHubUser extends Component {
         Aos.init({ duration: 2000 })
     }
     render() {
-        const { login, avatar_url, html_url } = this.props.users
+        const { login, avatar_url } = this.props.users
         return (
             <div className="card text-center" data-aos="fade">
                 <img src={avatar_url} alt="User" title={login} className="round-img" />
