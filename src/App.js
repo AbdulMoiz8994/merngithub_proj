@@ -12,6 +12,7 @@ export class App extends Component {
     alert: null,
     // This object is for indiual user
     user: {},
+    userRepo: [],
   };
   // async componentDidMount() {
   //   this.setState({ loading: true });
@@ -65,8 +66,20 @@ export class App extends Component {
     console.log(res.data);
   };
 
+  //This is a function where w e are getting data of our latest repos
+  UserReposFunc = async (userName) => {
+    this.setState({ loading: true });
+    const res = await axios.get(
+      `https://api.github.com/users/${userName}/repos?per_page=5&sort=created:asc?client_id=${process.env.React_App_Client_ID}&client_secret=${process.env.React_App_Client_Secret}`
+    );
+    // console.log(res);
+    this.setState({ userRepo: res.data });
+    this.setState({ loading: false });
+    // console.log(res.data);
+  };
+
   render() {
-    const { users, loading, user } = this.state;
+    const { users, loading, user, userRepo } = this.state;
     return (
       <Router>
         <div>
@@ -105,6 +118,8 @@ export class App extends Component {
                     getUser={this.UserFunc}
                     user={user}
                     loading={loading}
+                    UserReposFunc={this.UserReposFunc}
+                    userRepo={userRepo}
                   />
                 )}
               />

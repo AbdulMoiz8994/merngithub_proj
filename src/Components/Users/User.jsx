@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-
+import Repos from '../Repos/Repos'
 
 import Spinner from '../Spinner/Spinner';
 import PropTypes from 'prop-types';
@@ -8,16 +8,19 @@ import { Link } from 'react-router-dom'
 export class User extends Component {
     componentDidMount() {
         this.props.getUser(this.props.match.params.login)
+        this.props.UserReposFunc(this.props.match.params.login)
     }
     static propTypes = {
         user: PropTypes.object.isRequired,
         getUser: PropTypes.func.isRequired,
         loading: PropTypes.bool.isRequired,
+        UserReposFunc: PropTypes.func.isRequired,
+        userRepo: PropTypes.array.isRequired,
     }
     render() {
 
         const { name, company, avatar_url, blog, login, bio, location, html_url, followers, following, public_repos, public_gists, hireable } = this.props.user
-        const { loading } = this.props
+        const { loading, userRepo } = this.props
         if (loading) {
             return <Spinner />
         }
@@ -88,6 +91,8 @@ export class User extends Component {
                     <div className="badge badge-light">Public Repo: {public_repos}</div>
                     <div className="badge badge-dark">public Gists: {public_gists}</div>
                 </div>
+
+                <Repos repos={userRepo} />
             </Fragment>
         )
     }
