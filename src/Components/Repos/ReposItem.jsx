@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 export class ReposItem extends Component {
     static propTypes = {
-        repo: PropTypes.object.isRequired,
+        userRepo: PropTypes.object.isRequired,
     }
 
     render() {
